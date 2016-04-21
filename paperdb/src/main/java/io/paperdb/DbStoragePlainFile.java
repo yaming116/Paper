@@ -243,6 +243,13 @@ public class DbStoragePlainFile implements Storage {
     }
 
     private String getDbPath(Context context, String dbName) {
+        if (context instanceof PaperContextListener){
+            PaperContextListener c = (PaperContextListener) context;
+            if (c.getPaperCacheDir() == null){
+                throw new NullPointerException("paper cache dir is null");
+            }
+            return c.getPaperCacheDir() + File.separator + dbName;
+        }
         return context.getFilesDir() + File.separator + dbName;
     }
 
